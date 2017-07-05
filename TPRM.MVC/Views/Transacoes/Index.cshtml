@@ -1,0 +1,79 @@
+﻿@using System.Web.UI.WebControls
+@using TPRM.MVC.ViewModels
+@model IEnumerable<TPRM.MVC.ViewModels.TransacaoViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2 class="titulo">Lista de Transações</h2>
+
+@if (User.IsInRole("admin") || User.IsInRole("cliente"))
+{
+    @Html.ActionLink("Criar Novo", "Create", 1, new { @class = "btn btn-success" })
+}
+<p>
+
+</p>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ServicoId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmpresaContratanteId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmpresaContratadaId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Motivo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FileName)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Servico.DescricaoServico)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NomeEmpresaContratada)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NomeEmpresaContratante)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Motivo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FileName)
+            </td>
+            <td>
+                @if (User.IsInRole("admin") || User.IsInRole("analista"))
+                {
+                    @Html.ActionLink("Editar", "Edit", new { id = item.TransacaoId }, new { @class = "btn btn-primary btn-be" })
+
+                }
+            </td>
+            <td>
+                @if (User.IsInRole("admin") || User.IsInRole("analista"))
+                {
+                    @Html.ActionLink("Download", "Download", new { id = item.TransacaoId }, new { @class = "btn btn-primary btn-be" })
+                }
+            </td>
+        </tr>
+    }
+
+</table>

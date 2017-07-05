@@ -1,0 +1,52 @@
+﻿@using TPRM.MVC.ViewModels
+@model TPRM.MVC.ViewModels.TransacaoViewModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2 class="titulo">Editar a transacao</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.TransacaoId)
+
+        @Html.HiddenFor(model => model.ServicoId, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.HiddenFor(model => model.EmpresaContratanteId, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.HiddenFor(model => model.NomeEmpresaContratante, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.HiddenFor(model => model.EmpresaContratadaId, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.HiddenFor(model => model.NomeEmpresaContratada, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.HiddenFor(model => model.FileName, new { htmlAttributes = new { @class = "form-control" } })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Motivo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Motivo, new { htmlAttributes = new { @class = "form-control disabled" } })
+                @Html.ValidationMessageFor(model => model.Motivo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Status, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("Status", String.Empty)
+                @Html.ValidationMessageFor(model => model.Status, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Salvar" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Voltar a lista", "Index")
+</div>

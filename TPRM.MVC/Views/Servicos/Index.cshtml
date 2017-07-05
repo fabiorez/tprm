@@ -1,0 +1,58 @@
+﻿@model IEnumerable<TPRM.MVC.ViewModels.ServicoViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2 class="titulo">Lista de serviços</h2>
+
+@if (User.IsInRole("admin"))
+{
+    <p>
+        @Html.ActionLink("Criar Novo", "Create", 1, new { @class = "btn btn-success" })
+    </p>
+}
+
+<table class="table table-hover">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.DescricaoServico)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ValorServico)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ativo)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DescricaoServico)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ValorServico)
+            </td>
+            <td>
+                @if (item.Ativo)
+                {
+                    <label style="font-weight: normal">Ativado</label>
+                }
+                else
+                {
+                    <label style="font-weight: normal">Desativado</label>
+                }
+            </td>
+            <td>
+                @if (User.IsInRole("admin"))
+                {
+                    @Html.ActionLink("Editar", "Edit", new { id = item.ServicoId }, new { @class = "btn btn-primary btn-be" })
+                }
+            </td>
+        </tr>
+    }
+
+</table>

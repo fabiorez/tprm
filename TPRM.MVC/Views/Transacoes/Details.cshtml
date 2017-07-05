@@ -1,0 +1,50 @@
+﻿@model TPRM.MVC.ViewModels.TransacaoViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>TransacaoViewModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ServicoId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Servico.DescricaoServico)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmpresaId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Empresa.EmpresaNome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Motivo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Motivo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.TransacaoId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

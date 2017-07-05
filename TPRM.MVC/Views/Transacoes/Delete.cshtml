@@ -1,0 +1,72 @@
+﻿@model TPRM.MVC.ViewModels.TransacaoViewModel
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>TransacaoViewModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ServicoId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ServicoId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmpresaContratanteId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmpresaContratanteId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmpresaContratadaId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmpresaContratadaId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Motivo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Motivo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FileName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FileName)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

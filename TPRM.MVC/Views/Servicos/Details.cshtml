@@ -1,0 +1,41 @@
+﻿@model TPRM.MVC.ViewModels.ServicoViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Detalhes do serviço</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.DescricaoServico)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DescricaoServico)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ValorServico)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ValorServico)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ativo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ativo)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar", "Edit", new { id = Model.ServicoId }) |
+    @Html.ActionLink("Voltar para lista", "Index")
+</p>

@@ -1,0 +1,56 @@
+﻿@model IEnumerable<TPRM.MVC.ViewModels.EmpresaViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2 class="titulo">Lista de empresas</h2>
+
+<p>
+    @Html.ActionLink("Criar Novo", "Create", 1, new { @class = "btn btn-success" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.EmpresaNome)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmpresaTipo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ValorDevido)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Ativo)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.EmpresaNome)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EmpresaTipo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ValorDevido)
+        </td>
+        <td>
+            @if (item.Ativo)
+            {
+                <label style="font-weight: normal">Ativa</label>
+            }
+            else
+            {
+                <label style="font-weight: normal">Inativa</label>
+            }
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { id=item.EmpresaId }, new { @class = "btn btn-primary btn-be" })
+        </td>
+    </tr>
+}
+
+</table>

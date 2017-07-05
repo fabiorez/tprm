@@ -1,0 +1,58 @@
+﻿@model TPRM.MVC.ViewModels.EmpresaViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>EmpresaViewModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.EmpresaNome)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmpresaNome)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TransacaoId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TransacaoId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmpresaTipo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmpresaTipo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ServicoId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Servico.DescricaoServico)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ativo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ativo)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.EmpresaId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,80 @@
+﻿body {
+    /*padding-top: 50px;
+    padding-bottom: 20px;*/
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.btn-be {
+    background-color: #1D396B;
+    border: #1D396B;
+}
+
+.titulo {
+    margin-bottom: 30px;
+    margin-top: 30px;
+}
+
+/*inicio css do menu*/
+.jk-header {
+    width: 100%;
+    background: #ecf0f1;
+}
+.navbar-default {
+    background-color: #F2F1EF;
+    border: none;
+}
+.navbar {
+    border: 1px solid transparent;
+    margin-bottom: 0;
+    min-height: 100px;
+    position: relative;
+}
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+    background-color: #ecf0f1;
+    color: #8a4c3b;
+}
+.navbar-nav > li > a {
+    padding: 40px 25px;
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 18px;
+    color: #fcfcfc;
+}
+
+.navbar-default .navbar-nav > li > a {
+    color: #5c5c5c;
+}
+    .navbar-default .navbar-nav > li > a:hover {
+        color: #5fb0ed;
+        background-color: #ECECEC;
+    }
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+    background-color: #8a4c3b;
+    color: #ecf0f1;
+}
+.caret {
+    color: #8a4c3b;
+}
+/*fim do css do menu*/
+.fundo-inicio {
+    background-color: #67809F;
+    color: #ECF0F1;
+}
