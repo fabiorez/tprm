@@ -16,7 +16,6 @@ namespace TPRM.MVC.ViewModels
         public string DescricaoServico { get; set; }
 
         [DataType(DataType.Currency)]
-        [Range(typeof(decimal), "0", "999999999")]
         [Required(ErrorMessage = "Preencha o campo Valor")]
         [DisplayName("Valor")]
         public decimal ValorServico { get; set; }
