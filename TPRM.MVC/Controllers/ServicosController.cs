@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
+using PagedList;
 using TPRM.Application.Interface;
 using TPRM.Domain.Entities;
 using TPRM.MVC.ViewModels;
@@ -17,12 +20,48 @@ namespace TPRM.MVC.Controllers
             _servicoApp = servicoApp;
         }
 
-        [Authorize(Roles = "admin, cliente, analista")]
+        [Authorize(Roles = "admin, analista")]
         // GET: Servicos
-        public ActionResult Index()
+        //public ActionResult Index()
+        //{
+        //    var servicoViewModel = Mapper.Map<IEnumerable<Servico>, IEnumerable<ServicoViewModel>>(_servicoApp.GetAll());
+        //    return View(servicoViewModel);
+        //}
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             var servicoViewModel = Mapper.Map<IEnumerable<Servico>, IEnumerable<ServicoViewModel>>(_servicoApp.GetAll());
-            return View(servicoViewModel);
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.DescricaoParam = string.IsNullOrEmpty(sortOrder) ? "Descricao_desc" : "";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                servicoViewModel = servicoViewModel.Where(p => p.DescricaoServico.ToUpper().Contains(searchString.ToUpper()));
+            }
+
+            switch (sortOrder)
+            {
+                case "Descricao_desc":
+                    servicoViewModel = servicoViewModel.OrderByDescending(s => s.DescricaoServico);
+                    break;
+                default:
+                    servicoViewModel = servicoViewModel.OrderBy(p => p.DataCadastro);
+                    break;
+            }
+
+            int pageSize = 3;
+            int pageNumber = page ?? 1;
+            return View(servicoViewModel.ToPagedList(pageNumber, pageSize));
         }
 
         [Authorize(Roles = "admin")]

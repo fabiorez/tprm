@@ -1,6 +1,5 @@
-﻿@using System.Web.UI.WebControls
-@using TPRM.MVC.ViewModels
-@model IEnumerable<TPRM.MVC.ViewModels.TransacaoViewModel>
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<TPRM.MVC.ViewModels.TransacaoViewModel>
 
 @{
     ViewBag.Title = "Index";
@@ -8,33 +7,48 @@
 
 <h2 class="titulo">Lista de Transações</h2>
 
-@if (User.IsInRole("admin") || User.IsInRole("cliente"))
-{
-    @Html.ActionLink("Criar Novo", "Create", 1, new { @class = "btn btn-success" })
-}
-<p>
+<div class="row">
+    <div class="col-md-6">
+        @if (User.IsInRole("admin") || User.IsInRole("cliente"))
+        {
+            @Html.ActionLink("Criar Novo", "Create", 1, new { @class = "btn btn-success" })
+        }
+    </div>
+    <div class="col-md-4">
+        @using (Html.BeginForm("Index", "Transacoes", FormMethod.Get))
+        {
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="submit">Pesquisar</button>
+                </span>
+                @Html.TextBox("searchString", null, new { @class = "form-control", @placeholder = "Nome da empresa ou status..." })
 
-</p>
+            </div>
+        }
 
-<table class="table">
+    </div>
+</div>
+<br />
+
+<table class="table table-hover">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.ServicoId)
+            @Html.DisplayName("Serviço")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.EmpresaContratanteId)
+            @Html.ActionLink("Contratada", "Index", new { sortOrder = ViewBag.EmpresaContratadaParam })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.EmpresaContratadaId)
+            @Html.ActionLink("Contratante", "Index", new { sortOrder = ViewBag.EmpresaContratanteParam })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Motivo)
+            @Html.DisplayName("Motivo")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Status)
+            @Html.ActionLink("Status", "Index", new { sortOrder = ViewBag.StatusParam })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.FileName)
+            @Html.DisplayName("Arquivo")
         </th>
         <th></th>
     </tr>
@@ -77,3 +91,7 @@
     }
 
 </table>
+
+Pagina @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

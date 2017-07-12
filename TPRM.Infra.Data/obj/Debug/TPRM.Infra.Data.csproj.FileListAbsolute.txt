@@ -1,0 +1,12 @@
+C:\Users\fabio\onedrive\documentos\visual studio 2017\Projects\TPRM\TPRM.Infra.Data\bin\Debug\TPRM.Infra.Data.dll.config
+C:\Users\fabio\onedrive\documentos\visual studio 2017\Projects\TPRM\TPRM.Infra.Data\bin\Debug\TPRM.Infra.Data.dll
+C:\Users\fabio\onedrive\documentos\visual studio 2017\Projects\TPRM\TPRM.Infra.Data\bin\Debug\TPRM.Infra.Data.pdb
+C:\Users\fabio\onedrive\documentos\visual studio 2017\Projects\TPRM\TPRM.Infra.Data\bin\Debug\EntityFramework.dll
+C:\Users\fabio\onedrive\documentos\visual studio 2017\Projects\TPRM\TPRM.Infra.Data\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\fabio\onedrive\documentos\visual studio 2017\Projects\TPRM\TPRM.Infra.Data\bin\Debug\TPRM.Domain.dll
+C:\Users\fabio\onedrive\documentos\visual studio 2017\Projects\TPRM\TPRM.Infra.Data\bin\Debug\TPRM.Domain.pdb
+C:\Users\fabio\onedrive\documentos\visual studio 2017\Projects\TPRM\TPRM.Infra.Data\bin\Debug\EntityFramework.xml
+C:\Users\fabio\onedrive\documentos\visual studio 2017\Projects\TPRM\TPRM.Infra.Data\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\fabio\onedrive\documentos\visual studio 2017\Projects\TPRM\TPRM.Infra.Data\obj\Debug\TPRM.Infra.Data.csprojResolveAssemblyReference.cache
+C:\Users\fabio\onedrive\documentos\visual studio 2017\Projects\TPRM\TPRM.Infra.Data\obj\Debug\TPRM.Infra.Data.dll
+C:\Users\fabio\onedrive\documentos\visual studio 2017\Projects\TPRM\TPRM.Infra.Data\obj\Debug\TPRM.Infra.Data.pdb

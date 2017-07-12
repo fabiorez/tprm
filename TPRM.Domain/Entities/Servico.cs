@@ -5,14 +5,6 @@ namespace TPRM.Domain.Entities
 {
     public class Servico
     {
-        //public Servico(string descricaoServico, decimal valorServico)
-        //{
-        //    DescricaoServico = descricaoServico;
-        //    ValorServico = valorServico;
-        //    DataCadastro = DateTime.Now;
-        //    Ativo = true;
-        //}
-
         public int ServicoId { get; set; }
         public string DescricaoServico { get; set; }
         public decimal ValorServico { get; set; }

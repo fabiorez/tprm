@@ -1,4 +1,5 @@
-﻿@model IEnumerable<TPRM.MVC.ViewModels.EmpresaViewModel>
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<TPRM.MVC.ViewModels.EmpresaViewModel>
 
 @{
     ViewBag.Title = "Index";
@@ -6,22 +7,41 @@
 
 <h2 class="titulo">Lista de empresas</h2>
 
-<p>
-    @Html.ActionLink("Criar Novo", "Create", 1, new { @class = "btn btn-success" })
-</p>
-<table class="table">
+<div class="row">
+    <div class="col-md-6">
+            @Html.ActionLink("Criar Novo", "Create", 1, new { @class = "btn btn-success" })
+    </div>
+    <div class="col-md-4">
+        @using (Html.BeginForm("Index", "Empresas", FormMethod.Get))
+        {
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="submit">Pesquisar</button>
+                </span>
+                @Html.TextBox("searchString", null, new { @class = "form-control", @placeholder = "Nome da empresa ou tipo..." })
+
+            </div>
+        }
+
+    </div>
+</div>
+<br />
+<table class="table  table-hover">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.EmpresaNome)
+            @Html.ActionLink("Nome", "Index", new { sortOrder = ViewBag.NomeParam })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.EmpresaTipo)
+            @Html.ActionLink("Tipo", "Index", new { sortOrder = ViewBag.TipoParam })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ValorDevido)
+            @Html.DisplayName("Serviço")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Ativo)
+            @Html.DisplayName("Valor Devido")
+        </th>
+        <th>
+            @Html.DisplayName("Situação")
         </th>
         <th></th>
     </tr>
@@ -35,22 +55,29 @@
             @Html.DisplayFor(modelItem => item.EmpresaTipo)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.Servico.DescricaoServico)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.ValorDevido)
         </td>
         <td>
             @if (item.Ativo)
             {
-                <label style="font-weight: normal">Ativa</label>
+                <label style="font-weight: normal">Ativado</label>
             }
             else
             {
-                <label style="font-weight: normal">Inativa</label>
+                <label style="font-weight: normal">Desativado</label>
             }
         </td>
         <td>
-            @Html.ActionLink("Editar", "Edit", new { id=item.EmpresaId }, new { @class = "btn btn-primary btn-be" })
+            @Html.ActionLink("Editar", "Edit", new { id = item.EmpresaId }, new { @class = "btn btn-primary btn-be" })
         </td>
     </tr>
 }
 
 </table>
+
+Pagina @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

@@ -61,6 +61,13 @@ namespace TPRM.Infra.Data.Contexto
                     entry.Property("Status").CurrentValue = "Pendente";
                 }
             }
+            foreach (var entry in ChangeTracker.Entries().Where(entry => entry.Entity.GetType().GetProperty("Ativo") != null))
+            {
+                if (entry.State == EntityState.Added)
+                {
+                    entry.Property("Ativo").CurrentValue = true;
+                }
+            }
             return base.SaveChanges();
         }
     }

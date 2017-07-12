@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
+using PagedList;
 using TPRM.Application.Interface;
 using TPRM.Domain.Entities;
 using TPRM.MVC.ViewModels;
@@ -21,10 +24,53 @@ namespace TPRM.MVC.Controllers
         }
 
         // GET: Empresas
-        public ActionResult Index()
+        //public ActionResult Index()
+        //{
+        //    var empresaViewModel = Mapper.Map<IEnumerable<Empresa>, IEnumerable<EmpresaViewModel>>(_empresaApp.GetAll());
+        //    return View(empresaViewModel);
+        //}
+
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             var empresaViewModel = Mapper.Map<IEnumerable<Empresa>, IEnumerable<EmpresaViewModel>>(_empresaApp.GetAll());
-            return View(empresaViewModel);
+
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NomeParam = string.IsNullOrEmpty(sortOrder) ? "Nome_desc" : "";
+            ViewBag.TipoParam = string.IsNullOrEmpty(sortOrder) ? "Tipo_desc" : "";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                empresaViewModel = empresaViewModel.Where(p => p.EmpresaNome.ToUpper().Contains(searchString.ToUpper()) ||
+                                                                   p.EmpresaTipo.ToUpper().Contains(searchString.ToUpper()));
+            }
+
+            switch (sortOrder)
+            {
+                case "Nome_desc":
+                    empresaViewModel = empresaViewModel.OrderByDescending(s => s.EmpresaNome);
+                    break;
+                case "Tipo_desc":
+                    empresaViewModel = empresaViewModel.OrderByDescending(s => s.EmpresaTipo);
+                    break;
+                default:
+                    empresaViewModel = empresaViewModel.OrderBy(p => p.ValorDevido);
+                    break;
+            }
+
+            int pageSize = 3;
+            int pageNumber = page ?? 1;
+            return View(empresaViewModel.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Empresas/Details/5
@@ -66,6 +112,8 @@ namespace TPRM.MVC.Controllers
             var empresaViewModel = Mapper.Map<Empresa, EmpresaViewModel>(empresa);
 
             ViewBag.EmpresaTipo = new SelectList(_empresaApp.GetAll(), "EmpresaTipo", "EmpresaTipo", empresaViewModel.EmpresaTipo);
+            ViewBag.EmpresaTipo = new SelectList(new EmpresaViewModel.Tipo().ListaTipos(), "TipoId", "Nome", empresaViewModel.EmpresaTipo);
+
             ViewBag.ServicoId = new SelectList(_servicoApp.GetAll(), "ServicoId", "DescricaoServico", empresaViewModel.ServicoId);
 
             return View(empresaViewModel);

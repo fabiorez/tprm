@@ -1,0 +1,7 @@
+C:\Users\fabio\onedrive\documentos\visual studio 2017\Projects\TPRM\TPRM.Application\bin\Debug\TPRM.Application.dll
+C:\Users\fabio\onedrive\documentos\visual studio 2017\Projects\TPRM\TPRM.Application\bin\Debug\TPRM.Application.pdb
+C:\Users\fabio\onedrive\documentos\visual studio 2017\Projects\TPRM\TPRM.Application\bin\Debug\TPRM.Domain.dll
+C:\Users\fabio\onedrive\documentos\visual studio 2017\Projects\TPRM\TPRM.Application\bin\Debug\TPRM.Domain.pdb
+C:\Users\fabio\onedrive\documentos\visual studio 2017\Projects\TPRM\TPRM.Application\obj\Debug\TPRM.Application.csprojResolveAssemblyReference.cache
+C:\Users\fabio\onedrive\documentos\visual studio 2017\Projects\TPRM\TPRM.Application\obj\Debug\TPRM.Application.dll
+C:\Users\fabio\onedrive\documentos\visual studio 2017\Projects\TPRM\TPRM.Application\obj\Debug\TPRM.Application.pdb

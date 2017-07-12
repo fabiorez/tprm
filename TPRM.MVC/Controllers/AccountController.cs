@@ -94,7 +94,8 @@ namespace TPRM.MVC.Controllers
             {
                 return RedirectToAction("Index", "Empresas");
             }
-            else if (User.IsInRole("analista"))
+            else if (User.IsInRole("analista") || (User.IsInRole("cliente")))
+
             {
                 return RedirectToAction("Index", "Transacoes");
             }

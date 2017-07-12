@@ -1,4 +1,5 @@
-﻿@model IEnumerable<TPRM.MVC.ViewModels.ServicoViewModel>
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<TPRM.MVC.ViewModels.ServicoViewModel>
 
 @{
     ViewBag.Title = "Index";
@@ -6,23 +7,41 @@
 
 <h2 class="titulo">Lista de serviços</h2>
 
-@if (User.IsInRole("admin"))
-{
-    <p>
-        @Html.ActionLink("Criar Novo", "Create", 1, new { @class = "btn btn-success" })
-    </p>
-}
+
+
+<div class="row">
+    <div class="col-md-6">
+        @if (User.IsInRole("admin"))
+        {
+                @Html.ActionLink("Criar Novo", "Create", 1, new { @class = "btn btn-success" })
+        }
+    </div>
+    <div class="col-md-4">
+        @using (Html.BeginForm("Index", "Servicos", FormMethod.Get))
+        {
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button class="btn btn-primary" type="submit">Pesquisar</button>
+                </span>
+                @Html.TextBox("searchString", null, new { @class = "form-control", @placeholder = "Nome do serviço..." })
+
+            </div>
+        }
+
+    </div>
+</div>
+<br />
 
 <table class="table table-hover">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.DescricaoServico)
+            @Html.ActionLink("Descrição", "Index", new { sortOrder = ViewBag.DescricaoParam })
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.ValorServico)
+            @Html.DisplayName("Valor do serviço")
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Ativo)
+            @Html.DisplayName("Situação")
         </th>
         <th></th>
     </tr>
@@ -56,3 +75,7 @@
     }
 
 </table>
+
+Pagina @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) de @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

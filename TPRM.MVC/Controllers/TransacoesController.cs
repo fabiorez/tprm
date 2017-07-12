@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using AutoMapper;
+using PagedList;
 using TPRM.Application.Interface;
 using TPRM.Domain.Entities;
 using TPRM.MVC.ViewModels;
@@ -26,10 +27,58 @@ namespace TPRM.MVC.Controllers
 
         [Authorize(Roles = "cliente, admin, analista")]
         // GET: Transacao
-        public ActionResult Index()
+        //public ActionResult Index()
+        //{
+        //    var transacaoViewModel = Mapper.Map<IEnumerable<Transacao>, IEnumerable<TransacaoViewModel>>(_transacaoApp.GetAll());
+        //    return View(transacaoViewModel);
+        //}
+
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
             var transacaoViewModel = Mapper.Map<IEnumerable<Transacao>, IEnumerable<TransacaoViewModel>>(_transacaoApp.GetAll());
-            return View(transacaoViewModel);
+
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.EmpresaContratadaParam = string.IsNullOrEmpty(sortOrder) ? "EmpresaContratada_desc" : "";
+            ViewBag.EmpresaContratanteParam = string.IsNullOrEmpty(sortOrder) ? "EmpresaContratante_desc" : "";
+            ViewBag.StatusParam = string.IsNullOrEmpty(sortOrder) ? "Status_desc" : "";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewBag.CurrentFilter = searchString;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                transacaoViewModel = transacaoViewModel.Where(p => p.NomeEmpresaContratada.ToUpper().Contains(searchString.ToUpper()) ||
+                                             p.NomeEmpresaContratante.ToUpper().Contains(searchString.ToUpper()) ||
+                                             p.Status.ToUpper().Contains(searchString.ToUpper()));
+            }
+
+            switch (sortOrder)
+            {
+                case "EmpresaContratada_desc":
+                    transacaoViewModel = transacaoViewModel.OrderByDescending(s => s.NomeEmpresaContratada);
+                    break;
+                case "EmpresaContratante_desc":
+                    transacaoViewModel = transacaoViewModel.OrderByDescending(s => s.NomeEmpresaContratante);
+                    break;
+                case "Status_desc":
+                    transacaoViewModel = transacaoViewModel.OrderByDescending(s => s.Status);
+                    break;
+                default:
+                    transacaoViewModel = transacaoViewModel.OrderBy(p => p.DataCadastro);
+                    break;
+            }
+
+            int pageSize = 3;
+            int pageNumber = page ?? 1;
+            return View(transacaoViewModel.ToPagedList(pageNumber, pageSize));
         }
 
         [Authorize(Roles = "cliente, admin, analista")]
@@ -66,29 +115,33 @@ namespace TPRM.MVC.Controllers
 
                     var transacaoDomain = Mapper.Map<TransacaoViewModel, Transacao>(transacao);
 
-                    String fileExt = Path.GetExtension(files.FileName).ToUpper();
-
-                    if (fileExt == ".PDF")
+                    var extension = Path.GetExtension(files.FileName);
+                    if (extension != null)
                     {
-                        Stream str = files.InputStream;
-                        BinaryReader br = new BinaryReader(str);
-                        Byte[] fileDet = br.ReadBytes((Int32) str.Length);
+                        String fileExt = extension.ToUpper();
 
-                        transacaoDomain.FileName = files.FileName;
-                        transacaoDomain.File = fileDet;
-                        transacaoDomain.NomeEmpresaContratada = _empresaApp.GetById(transacao.EmpresaContratadaId).EmpresaNome;
-                        transacaoDomain.NomeEmpresaContratante = _empresaApp.GetById(transacao.EmpresaContratanteId).EmpresaNome;
-                        _transacaoApp.Add(transacaoDomain);
+                        if (fileExt == ".PDF")
+                        {
+                            Stream str = files.InputStream;
+                            BinaryReader br = new BinaryReader(str);
+                            Byte[] fileDet = br.ReadBytes((Int32) str.Length);
 
-                        var empresaDomain = _empresaApp.GetById(transacaoDomain.EmpresaContratanteId);
-                        empresaDomain.ValorDevido = empresaDomain.ValorDevido + 5;
-                        _empresaApp.Update(empresaDomain);
+                            transacaoDomain.FileName = files.FileName;
+                            transacaoDomain.File = fileDet;
+                            transacaoDomain.NomeEmpresaContratada = _empresaApp.GetById(transacao.EmpresaContratadaId).EmpresaNome;
+                            transacaoDomain.NomeEmpresaContratante = _empresaApp.GetById(transacao.EmpresaContratanteId).EmpresaNome;
+                            _transacaoApp.Add(transacaoDomain);
 
-                        return RedirectToAction("Index");
-                    }
-                    else
-                    {
-                        ViewBag.FileStatus = "Formato de arquivo inválido";
+                            var empresaDomain = _empresaApp.GetById(transacaoDomain.EmpresaContratanteId);
+                            empresaDomain.ValorDevido = empresaDomain.ValorDevido + 5;
+                            _empresaApp.Update(empresaDomain);
+
+                            return RedirectToAction("Index");
+                        }
+                        else
+                        {
+                            ViewBag.FileStatus = "Formato de arquivo inválido";
+                        }
                     }
                 }
                 else
